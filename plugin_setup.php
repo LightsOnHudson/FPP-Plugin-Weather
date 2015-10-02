@@ -3,13 +3,30 @@
 //$DEBUG=true;
 
 include_once "/opt/fpp/www/common.php";
-include_once "functions.inc.php";
+include_once 'functions.inc.php';
+include_once 'commonFunctions.inc.php';
 
 
 $pluginName = "Weather";
 
+$gitURL = "https://github.com/LightsOnHudson/FPP-Plugin-Weather.git";
+
+
+$pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
+
 
 $logFile = $settings['logDirectory']."/".$pluginName.".log";
+
+
+logEntry("plugin update file: ".$pluginUpdateFile);
+
+
+if(isset($_POST['updatePlugin']))
+{
+	$updateResult = updatePluginFromGitHub($gitURL, $branch="master", $pluginName);
+
+	echo $updateResult."<br/> \n";
+}
 
 
 if(isset($_POST['submit']))
@@ -28,10 +45,10 @@ if(isset($_POST['submit']))
 }
 
 	
-	$ENABLED = urldecode(ReadSettingFromFile("ENABLED",$pluginName));
-	$SEPARATOR = urldecode(ReadSettingFromFile("SEPARATOR",$pluginName));
-	$CITY= urldecode(ReadSettingFromFile("CITY",$pluginName));
-	$STATE= ReadSettingFromFile("STATE",$pluginName);
+	$ENABLED = $pluginSettings['ENABLED'];
+	$SEPARATOR = urldecode($pluginSettings['SEPARATOR']);
+	$CITY=  $pluginSettings['CITY'];
+	$STATE=  $pluginSettings['STATE'];
 	
 	
 	
@@ -126,9 +143,14 @@ if($DEBUG) {
 ?>
 <p/>
 <input id="submit_button" name="submit" type="submit" class="buttons" value="Save Config">
-
+<?
+ if(file_exists($pluginUpdateFile))
+ {
+ 	//echo "updating plugin included";
+	include $pluginUpdateFile;
+}
+?>
 </form>
-
 
 <p>To report a bug, please file it against the sms Control plugin project on Git: https://github.com/LightsOnHudson/FPP-Plugin-Weather
 
