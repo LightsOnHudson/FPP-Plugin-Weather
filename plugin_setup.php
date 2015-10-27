@@ -139,7 +139,8 @@ if($DEBUG) {
 	
 	//echo "<input type=\"text\" name=\"CITY\" size=\"16\" value=\"".$CITY."\"> \n";
 	PrintSettingText("CITY", $restart = 0, $reboot = 0, $maxlength = 32, $size = 32, $pluginName);
-	PrintSettingSave("SAVE", "CITY", $restart = 1, $reboot = 0, $pluginName, $callbackName = "");
+	PrintSettingSave("CITY", "CITY", $restart = 1, $reboot = 0, $pluginName, $callbackName = "");
+	//PrintSettingSave($title, $setting, $restart = 1, $reboot = 0, $pluginName = "", $callbackName = "");
 	echo "<p/> \n";
 	
 	echo "State: \n";
