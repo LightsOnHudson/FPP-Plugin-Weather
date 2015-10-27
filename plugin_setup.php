@@ -155,12 +155,12 @@ if($DEBUG) {
         
         echo "Include Temp: ";
         
-        if($INCLUDE_TEMP== 1 || $INCLUDE_TEMP == "on") {
-        	echo "<input type=\"checkbox\" checked name=\"INCLUDE_TEMP\"> \n";
-        	//PrintSettingCheckbox("Radio Station", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
-        } else {
-        	echo "<input type=\"checkbox\"  name=\"INCLUDE_TEMP\"> \n";
-        }
+        //if($INCLUDE_TEMP== 1 || $INCLUDE_TEMP == "on") {
+        	//echo "<input type=\"checkbox\" checked name=\"INCLUDE_TEMP\"> \n";
+        	PrintSettingCheckbox("Include Temp", "INCLUDE_TEMP", $restart = 0, $reboot = 0, "1", "0", $pluginName = $pluginName, $callbackName = "");
+        //} else {
+        	//echo "<input type=\"checkbox\"  name=\"INCLUDE_TEMP\"> \n";
+        //}
         
         echo "<p/> \n";
         
