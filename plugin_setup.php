@@ -49,8 +49,8 @@ if(isset($_POST['submit']))
 	
 }
 
+	$ENABLED = urldecode($pluginSettings['ENABLED']);
 	
-	$INCLUDE_TEMP = urldecode($pluginSettings['ENABLED']);
 	$SEPARATOR = urldecode($pluginSettings['SEPARATOR']);
 	$CITY=  urldecode($pluginSettings['CITY']);
 	$STATE=  urldecode($pluginSettings['STATE']);
@@ -190,7 +190,7 @@ if($DEBUG) {
         
         echo "API KEY: \n";
         
-        echo "<input type=\"text\" name=\"API_KEY\" size=\"2\" value=\"".$API_KEY."\"> \n";
+        echo "<input type=\"text\" name=\"API_KEY\" size=\"64\" value=\"".$API_KEY."\"> \n";
         
         
         echo "<p/> \n";
