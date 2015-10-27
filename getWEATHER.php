@@ -22,9 +22,8 @@ define('LOCK_SUFFIX', '.lock');
 
 $logFile = $settings['logDirectory']."/".$pluginName.".log";
 
-$API_KEY="3c68dd21b1f3acc1658e1c5306134e9b";
 
-$WEATHER_URL="http://api.openweathermap.org/data/2.5/weather?APPID=".$API_KEY."q=";
+$WEATHER_URL="http://api.openweathermap.org/data/2.5/weather?q=";
 
 $messageQueuePluginPath = $pluginDirectory."/".$messageQueue_Plugin."/";
 
@@ -66,6 +65,7 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	$INCLUDE_WIND = urldecode($pluginSettings['INCLUDE_WIND']);
 	$INCLUDE_TEMP = urldecode($pluginSettings['INCLUDE_TEMP']);
 	$INCLUDE_HUMIDITY = urldecode($pluginSettings['INCLUDE_HUMIDITY']);
+	$API_KEY= urldecode($pluginSettings['API_KEY']);
 
 
 //$WEATHER_URL .= $CITY;//.",".$STATE;
