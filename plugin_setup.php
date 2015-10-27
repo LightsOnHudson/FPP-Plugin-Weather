@@ -110,12 +110,13 @@ $reboot=0;
 
 echo "ENABLE PLUGIN: ";
 
-if($ENABLED== 1 || $ENABLED == "on") {
-		echo "<input type=\"checkbox\" checked name=\"ENABLED\"> \n";
-//PrintSettingCheckbox("Radio Station", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
-	} else {
-		echo "<input type=\"checkbox\"  name=\"ENABLED\"> \n";
-}
+//if($ENABLED== 1 || $ENABLED == "on") {
+	//	echo "<input type=\"checkbox\" checked name=\"ENABLED\"> \n";
+	//just use the name of the plugin. Because it will pop up with 'enabled / disabled ' suffix
+PrintSettingCheckbox($pluginName." Plugin", "ENABLED", $restart = 0, $reboot = 0, "1", "0", $pluginName = $pluginName, $callbackName = "");
+	//} else {
+		//echo "<input type=\"checkbox\"  name=\"ENABLED\"> \n";
+//}
 
 echo "<p/> \n";
 
@@ -166,24 +167,24 @@ if($DEBUG) {
         
         echo "Include Wind: ";
         
-        if($INCLUDE_WIND == 1 || $INCLUDE_WIND == "on") {
-        	echo "<input type=\"checkbox\" checked name=\"INCLUDE_WIND\"> \n";
-        	//PrintSettingCheckbox("Radio Station", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
-        } else {
-        	echo "<input type=\"checkbox\"  name=\"INCLUDE_WIND\"> \n";
-        }
+      //  if($INCLUDE_WIND == 1 || $INCLUDE_WIND == "on") {
+        //	echo "<input type=\"checkbox\" checked name=\"INCLUDE_WIND\"> \n";
+        	PrintSettingCheckbox("Include Wind", "INCLUDE_WIND", $restart = 0, $reboot = 0, "1", "0", $pluginName = $pluginName, $callbackName = "");
+        //} else {
+        //	echo "<input type=\"checkbox\"  name=\"INCLUDE_WIND\"> \n";
+        //}
         
         echo "<p/> \n";
         
         
         echo "Include Humidity: ";
         
-        if($INCLUDE_HUMIDITY == 1 || $INCLUDE_HUMIDITY == "on") {
-        	echo "<input type=\"checkbox\" checked name=\"INCLUDE_HUMIDITY\"> \n";
-        	//PrintSettingCheckbox("Radio Station", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
-        } else {
-        	echo "<input type=\"checkbox\"  name=\"INCLUDE_HUMIDITY\"> \n";
-        }
+       // if($INCLUDE_HUMIDITY == 1 || $INCLUDE_HUMIDITY == "on") {
+        //	echo "<input type=\"checkbox\" checked name=\"INCLUDE_HUMIDITY\"> \n";
+        	PrintSettingCheckbox("Include Humidity", "INCLUDE_HUMIDITY", $restart = 0, $reboot = 0, "1", "0", $pluginName = $pluginName, $callbackName = "");
+        //} else {
+        	//echo "<input type=\"checkbox\"  name=\"INCLUDE_HUMIDITY\"> \n";
+        //}
         
         echo "<p/> \n";
         
