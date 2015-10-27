@@ -38,21 +38,30 @@ if(isset($_POST['submit']))
 	WriteSettingToFile("ENABLED",urlencode($_POST["ENABLED"]),$pluginName);
 	WriteSettingToFile("SEPARATOR",urlencode($_POST["SEPARATOR"]),$pluginName);
 	WriteSettingToFile("CITY",urlencode($_POST["CITY"]),$pluginName);
-	WriteSettingToFile("STATE",$_POST["STATE"],$pluginName);
+	WriteSettingToFile("STATE",urlencode($_POST["STATE"]),$pluginName);
 	
 	WriteSettingToFile("LAST_READ",urlencode($_POST["LAST_READ"]),$pluginName);
-
+	WriteSettingToFile("API_KEY",urlencode($_POST["API_KEY"]),$pluginName);
+	
+	WriteSettingToFile("INCLUDE_TEMP",urlencode($_POST["INCLUDE_TEMP"]),$pluginName);
+	WriteSettingToFile("INCLUDE_WIND",urlencode($_POST["INCLUDE_WIND"]),$pluginName);
+	WriteSettingToFile("INCLUDE_HUMIDITY",urlencode($_POST["INCLUDE_HUMIDITY"]),$pluginName);
+	
 }
 
 	
-	$ENABLED = $pluginSettings['ENABLED'];
+	$INCLUDE_TEMP = urldecode($pluginSettings['ENABLED']);
 	$SEPARATOR = urldecode($pluginSettings['SEPARATOR']);
-	$CITY=  $pluginSettings['CITY'];
-	$STATE=  $pluginSettings['STATE'];
+	$CITY=  urldecode($pluginSettings['CITY']);
+	$STATE=  urldecode($pluginSettings['STATE']);
+	$API_KEY = urldecode($pluginSettings['API_KEY']);
+	
+	$INCLUDE_WIND = urldecode($pluginSettings['INCLUDE_WIND']);
+	$INCLUDE_TEMP = urldecode($pluginSettings['INCLUDE_TEMP']);
+	$INCLUDE_HUMIDITY = urldecode($pluginSettings['INCLUDE_HUMIDITY']);
 	
 	
-	
-	$LAST_READ = urldecode(ReadSettingFromFile("LAST_READ",$pluginName));
+	$LAST_READ = urldecode($pluginSettings['LAST_READ']);//("LAST_READ",$pluginName));
 
 	if($SEPARATOR == "" || strlen($SEPARATOR)>1) {
 		$SEPARATOR="|";
@@ -82,6 +91,7 @@ if(isset($_POST['submit']))
 <p>Configuration:
 <ul>
 <li>Configure your City & 2 Character State & Separator Character to display</li>
+<li>Visit http://http://home.openweathermap.org/ to sign up for an API KEY</li>
 </ul>
 <ul>
 </ul>
@@ -140,6 +150,50 @@ if($DEBUG) {
 
         echo "<input type=\"text\" name=\"SEPARATOR\" size=\"2\" value=\"".$SEPARATOR."\"> \n";	
 
+        
+        echo "<p/> \n";
+        
+        echo "Include Temp: ";
+        
+        if($INCLUDE_TEMP== 1 || $INCLUDE_TEMP == "on") {
+        	echo "<input type=\"checkbox\" checked name=\"INCLUDE_TEMP\"> \n";
+        	//PrintSettingCheckbox("Radio Station", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
+        } else {
+        	echo "<input type=\"checkbox\"  name=\"INCLUDE_TEMP\"> \n";
+        }
+        
+        echo "<p/> \n";
+        
+        echo "Include Wind: ";
+        
+        if($INCLUDE_WIND == 1 || $INCLUDE_WIND == "on") {
+        	echo "<input type=\"checkbox\" checked name=\"INCLUDE_WIND\"> \n";
+        	//PrintSettingCheckbox("Radio Station", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
+        } else {
+        	echo "<input type=\"checkbox\"  name=\"INCLUDE_WIND\"> \n";
+        }
+        
+        echo "<p/> \n";
+        
+        
+        echo "Include Humidity: ";
+        
+        if($INCLUDE_HUMIDITY == 1 || $INCLUDE_HUMIDITY == "on") {
+        	echo "<input type=\"checkbox\" checked name=\"INCLUDE_HUMIDITY\"> \n";
+        	//PrintSettingCheckbox("Radio Station", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
+        } else {
+        	echo "<input type=\"checkbox\"  name=\"INCLUDE_HUMIDITY\"> \n";
+        }
+        
+        echo "<p/> \n";
+        
+        
+        echo "API KEY: \n";
+        
+        echo "<input type=\"text\" name=\"API_KEY\" size=\"2\" value=\"".$API_KEY."\"> \n";
+        
+        
+        echo "<p/> \n";
 ?>
 <p/>
 <input id="submit_button" name="submit" type="submit" class="buttons" value="Save Config">

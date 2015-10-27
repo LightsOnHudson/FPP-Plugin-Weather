@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?
-//error_reporting(0);
+error_reporting(0);
 
 $pluginName ="Weather";
 $myPid = getmypid();
@@ -22,7 +22,9 @@ define('LOCK_SUFFIX', '.lock');
 
 $logFile = $settings['logDirectory']."/".$pluginName.".log";
 
-$WEATHER_URL="http://api.openweathermap.org/data/2.5/weather?q=";
+$API_KEY="3c68dd21b1f3acc1658e1c5306134e9b";
+
+$WEATHER_URL="http://api.openweathermap.org/data/2.5/weather?APPID=".$API_KEY."q=";
 
 $messageQueuePluginPath = $pluginDirectory."/".$messageQueue_Plugin."/";
 
@@ -37,11 +39,14 @@ if(file_exists($messageQueuePluginPath."functions.inc.php"))
                 logEntry("Message Queue Plugin not installed, some features will be disabled");
         }
 
+        $pluginConfigFile = $settings['configDirectory'] . "/plugin." .$pluginName;
+        if (file_exists($pluginConfigFile))
+        	$pluginSettings = parse_ini_file($pluginConfigFile);
 
-
-$ENABLED = urldecode(ReadSettingFromFile("ENABLED",$pluginName));
+$ENABLED = urldecode($pluginSettings['ENABLED']);//("ENABLED",$pluginName));
 
 //echo "ENABLED: ".$ENABLED."\n";
+
 
 if(($pid = lockHelper::lock()) === FALSE) {
         exit(0);
@@ -52,13 +57,20 @@ if(($pid = lockHelper::lock()) === FALSE) {
                 lockHelper::unlock();
                 exit(0);
         }
-	$SEPARATOR = urldecode(ReadSettingFromFile("SEPARATOR",$pluginName));
-	$CITY= urldecode(ReadSettingFromFile("CITY",$pluginName));
-	$STATE= ReadSettingFromFile("STATE",$pluginName);
+        
+
+        
+	$SEPARATOR = urldecode($pluginSettings['SEPARATOR']);//("SEPARATOR",$pluginName));
+	$CITY= urldecode($pluginSettings['CITY']);//("CITY",$pluginName));
+	$STATE= urldecode($pluginSettings['STATE']);//("STATE",$pluginName);
+	$INCLUDE_WIND = urldecode($pluginSettings['INCLUDE_WIND']);
+	$INCLUDE_TEMP = urldecode($pluginSettings['INCLUDE_TEMP']);
+	$INCLUDE_HUMIDITY = urldecode($pluginSettings['INCLUDE_HUMIDITY']);
 
 
-$WEATHER_URL .= $CITY.",".$STATE;
-
+//$WEATHER_URL .= $CITY;//.",".$STATE;
+	$WEATHER_URL .= $CITY.",".$STATE."&APPID=".$API_KEY;
+	
         //  Initiate curl
         $ch = curl_init();
         // Disable SSL verification
@@ -79,9 +91,13 @@ $WEATHER_URL .= $CITY.",".$STATE;
 	//print_r($weatherData);
 
 	$currentTemp = $weatherData['main']['temp'];
+	logEntry("Current tmep before conversion: ".$currentTemp);
+	
 
 	$currentTemp = (($currentTemp-273.15)*1.8)+32;
 
+	logEntry("Current tmep after conversion: ".$currentTemp);
+	
 	//echo "current temp; ".$currentTemp."\n";
 	$currentWind = (int)$weatherData['wind']['speed']." MPH";
 	$currentWindDirection = $weatherData['wind']['deg'];
@@ -129,10 +145,24 @@ $WEATHER_URL .= $CITY.",".$STATE;
 	$humidity = $weatherData['main']['humidity'];
 
 	//echo "humidity: ".$humidity."%\n";
+	
+	//MessageText=""
+	$messageText="";
+	
+	if($INCLUDE_TEMP == 1 || $INCLUDE_TEMP == "on")
+		$messageText .= $SEPARATOR." Temp: ".$currentTemp;
 
-	$messageText = "Temp: ".$currentTemp." ".$SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind." ".$SEPARATOR." Humidity: ".$humidity."%";
+	if($INCLUDE_WIND == 1 || $INCLUDE_WIND == "on")
+		$messageText .= " ". $SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind;
+
+	if($INCLUDE_HUMIDITY == 1 || $INCLUDE_HUMIDITY == "on") 
+		$messageText .= " ".$SEPARATOR." Humidity: ".$humidity."%";
+	
+	//$messageText = "Temp: ".$currentTemp." ".$SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind." ".$SEPARATOR." Humidity: ".$humidity."%";
 	//echo "messageText: ".$messageText."\n";
 
+	logEntry("Weather string: ".$messageText);
+	
 	addNewMessage($messageText,$pluginName,$pluginData=$CITY." ".$STATE);
 
 lockHelper::unlock();
