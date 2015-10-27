@@ -137,23 +137,23 @@ if($DEBUG) {
 	
 	echo "City: \n";
 	
-	//echo "<input type=\"text\" name=\"CITY\" size=\"16\" value=\"".$CITY."\"> \n";
-	PrintSettingText("CITY", $restart = 0, $reboot = 0, $maxlength = 32, $size = 32, $pluginName);
-	PrintSettingSave("CITY", "CITY", $restart = 1, $reboot = 0, $pluginName, $callbackName = "");
+	echo "<input type=\"text\" name=\"CITY\" size=\"16\" value=\"".$CITY."\"> \n";
+	//PrintSettingText("CITY", $restart = 0, $reboot = 0, $maxlength = 32, $size = 32, $pluginName);
+	//PrintSettingSave("CITY", "CITY", $restart = 1, $reboot = 0, $pluginName, $callbackName = "");
 	//PrintSettingSave($title, $setting, $restart = 1, $reboot = 0, $pluginName = "", $callbackName = "");
 	echo "<p/> \n";
 	
 	echo "State: \n";
 	
-	//echo "<input type=\"text\" name=\"STATE\" size=\"2\" value=\"".$STATE."\"> \n";
-	PrintSettingText("STATE", $restart = 0, $reboot = 0, $maxlength = 5, $size = 5, $pluginName);
+	echo "<input type=\"text\" name=\"STATE\" size=\"2\" value=\"".$STATE."\"> \n";
+	//PrintSettingText("STATE", $restart = 0, $reboot = 0, $maxlength = 5, $size = 5, $pluginName);
 	
 	
 	echo "<p/> \n";
  echo "Separator: \n";
 
-      //  echo "<input type=\"text\" name=\"SEPARATOR\" size=\"2\" value=\"".$SEPARATOR."\"> \n";	
-        PrintSettingText("SEPARATOR", $restart = 0, $reboot = 0, $maxlength = 3, $size = 3, $pluginName);
+       echo "<input type=\"text\" name=\"SEPARATOR\" size=\"2\" value=\"".$SEPARATOR."\"> \n";	
+       // PrintSettingText("SEPARATOR", $restart = 0, $reboot = 0, $maxlength = 3, $size = 3, $pluginName);
         
         echo "<p/> \n";
         
@@ -194,8 +194,8 @@ if($DEBUG) {
         
         echo "API KEY: \n";
         
-       // echo "<input type=\"text\" name=\"API_KEY\" size=\"64\" value=\"".$API_KEY."\"> \n";
-        PrintSettingText("API_KEY", $restart = 1, $reboot = 0, $maxlength = 64, $size = 64, $pluginName);
+        echo "<input type=\"text\" name=\"API_KEY\" size=\"64\" value=\"".$API_KEY."\"> \n";
+       // PrintSettingText("API_KEY", $restart = 1, $reboot = 0, $maxlength = 64, $size = 64, $pluginName);
         
         echo "<p/> \n";
 ?>
