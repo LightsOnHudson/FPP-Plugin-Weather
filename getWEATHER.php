@@ -94,7 +94,7 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	logEntry("Current tmep before conversion: ".$currentTemp);
 	
 
-	$currentTemp = (($currentTemp-273.15)*1.8)+32;
+	$currentTemp = round((($currentTemp-273.15)*1.8)+32,1);
 
 	logEntry("Current tmep after conversion: ".$currentTemp);
 	
