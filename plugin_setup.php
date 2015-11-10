@@ -46,6 +46,9 @@ if(isset($_POST['submit']))
 	WriteSettingToFile("INCLUDE_TEMP",urlencode($_POST["INCLUDE_TEMP"]),$pluginName);
 	WriteSettingToFile("INCLUDE_WIND",urlencode($_POST["INCLUDE_WIND"]),$pluginName);
 	WriteSettingToFile("INCLUDE_HUMIDITY",urlencode($_POST["INCLUDE_HUMIDITY"]),$pluginName);
+	WriteSettingToFile("INCLUDE_LOCALE",urlencode($_POST["INCLUDE_LOCALE"]),$pluginName);
+	WriteSettingToFile("PRE_TEXT",urlencode($_POST["PRE_TEXT"]),$pluginName);
+	WriteSettingToFile("POST_TEXT",urlencode($_POST["POST_TEXT"]),$pluginName);
 	
 }
 
@@ -59,7 +62,9 @@ if(isset($_POST['submit']))
 	$INCLUDE_WIND = urldecode($pluginSettings['INCLUDE_WIND']);
 	$INCLUDE_TEMP = urldecode($pluginSettings['INCLUDE_TEMP']);
 	$INCLUDE_HUMIDITY = urldecode($pluginSettings['INCLUDE_HUMIDITY']);
-	
+	$INCLUDE_LOCALE = urldecode($pluginSettings['INCLUDE_LOCALE']);
+	$PRE_TEXT = urldecode($pluginSettings['PRE_TEXT']);
+	$POST_TEXT = urldecode($pluginSettings['POST_TEXT']);
 	
 	$LAST_READ = urldecode($pluginSettings['LAST_READ']);//("LAST_READ",$pluginName));
 
@@ -132,6 +137,22 @@ if($DEBUG) {
 
 	echo "<p/> \n";
 }	
+echo "<p/> \n";
+
+echo "Pre Text (Text to display ahead of Weather data): \n";
+
+echo "<input type=\"text\" name=\"PRE_TEXT\" size=\"16\" value=\"".$PRE_TEXT."\"> \n";
+//PrintSettingText("CITY", $restart = 0, $reboot = 0, $maxlength = 32, $size = 32, $pluginName);
+//PrintSettingSave("CITY", "CITY", $restart = 1, $reboot = 0, $pluginName, $callbackName = "");
+//PrintSettingSave($title, $setting, $restart = 1, $reboot = 0, $pluginName = "", $callbackName = "");
+echo "<p/> \n";
+
+echo "Post Text (Text to display after weather data): \n";
+
+echo "<input type=\"text\" name=\"POST_TEXT\" size=\"16\" value=\"".$POST_TEXT."\"> \n";
+//PrintSettingText("CITY", $restart = 0, $reboot = 0, $maxlength = 32, $size = 32, $pluginName);
+//PrintSettingSave("CITY", "CITY", $restart = 1, $reboot = 0, $pluginName, $callbackName = "");
+//PrintSettingSave($title, $setting, $restart = 1, $reboot = 0, $pluginName = "", $callbackName = "");
 
 	echo "<p/> \n";
 	
@@ -143,6 +164,7 @@ if($DEBUG) {
 	//PrintSettingSave($title, $setting, $restart = 1, $reboot = 0, $pluginName = "", $callbackName = "");
 	echo "<p/> \n";
 	
+	
 	echo "State: \n";
 	
 	echo "<input type=\"text\" name=\"STATE\" size=\"2\" value=\"".$STATE."\"> \n";
@@ -150,6 +172,24 @@ if($DEBUG) {
 	
 	
 	echo "<p/> \n";
+	
+	echo "Include Locale in output: \n";
+	
+	PrintSettingCheckbox("Include Locale", "INCLUDE_LOCALE", $restart = 0, $reboot = 0, "1", "0", $pluginName = $pluginName, $callbackName = "");
+	
+	// PrintSettingText("SEPARATOR", $restart = 0, $reboot = 0, $maxlength = 3, $size = 3, $pluginName);
+	
+	echo "<p/> \n";
+	
+	echo "Include Temp: ";
+	
+	//if($INCLUDE_TEMP== 1 || $INCLUDE_TEMP == "on") {
+	//echo "<input type=\"checkbox\" checked name=\"INCLUDE_TEMP\"> \n";
+	PrintSettingCheckbox("Include Temp", "INCLUDE_TEMP", $restart = 0, $reboot = 0, "1", "0", $pluginName = $pluginName, $callbackName = "");
+	//} else {
+	//echo "<input type=\"checkbox\"  name=\"INCLUDE_TEMP\"> \n";
+	//}
+	
  echo "Separator: \n";
 
        echo "<input type=\"text\" name=\"SEPARATOR\" size=\"2\" value=\"".$SEPARATOR."\"> \n";	

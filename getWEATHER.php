@@ -65,8 +65,11 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	$INCLUDE_WIND = urldecode($pluginSettings['INCLUDE_WIND']);
 	$INCLUDE_TEMP = urldecode($pluginSettings['INCLUDE_TEMP']);
 	$INCLUDE_HUMIDITY = urldecode($pluginSettings['INCLUDE_HUMIDITY']);
+	$INCLUDE_LOCALE = urldecode($pluginSettings['INCLUDE_LOCALE']);
 	$API_KEY= urldecode($pluginSettings['API_KEY']);
 
+	$PRE_TEXT= urldecode($pluginSettings['PRE_TEXT']);
+	$POST_TEXT= urldecode($pluginSettings['POST_TEXT']);
 
 //$WEATHER_URL .= $CITY;//.",".$STATE;
 	$WEATHER_URL .= $CITY.",".$STATE."&APPID=".$API_KEY;
@@ -91,12 +94,12 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	//print_r($weatherData);
 
 	$currentTemp = $weatherData['main']['temp'];
-	logEntry("Current tmep before conversion: ".$currentTemp);
+	logEntry("Current temp before conversion: ".$currentTemp);
 	
 
 	$currentTemp = round((($currentTemp-273.15)*1.8)+32,1);
 
-	logEntry("Current tmep after conversion: ".$currentTemp);
+	logEntry("Current temp after conversion: ".$currentTemp);
 	
 	//echo "current temp; ".$currentTemp."\n";
 	$currentWind = (int)$weatherData['wind']['speed']." MPH";
@@ -149,8 +152,15 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	//MessageText=""
 	$messageText="";
 	
+	if(trim($PRE_TEXT) != "") {
+		$messageText .= $PRE_TEXT;
+	}
+	
+	if($INCLUDE_LOCALE == 1 || $INCLUDE_LOCALE == "on")
+		$messageText .= " ". $SEPARATOR." ". $CITY.",".$STATE;
+	
 	if($INCLUDE_TEMP == 1 || $INCLUDE_TEMP == "on")
-		$messageText .= $SEPARATOR." Temp: ".$currentTemp;
+		$messageText .= " ". $SEPARATOR." Temp: ".$currentTemp;
 
 	if($INCLUDE_WIND == 1 || $INCLUDE_WIND == "on")
 		$messageText .= " ". $SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind;
@@ -158,6 +168,9 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	if($INCLUDE_HUMIDITY == 1 || $INCLUDE_HUMIDITY == "on") 
 		$messageText .= " ".$SEPARATOR." Humidity: ".$humidity."%";
 	
+		if(trim($POST_TEXT) != "") {
+			$messageText .= " ".$POST_TEXT;
+		}
 	//$messageText = "Temp: ".$currentTemp." ".$SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind." ".$SEPARATOR." Humidity: ".$humidity."%";
 	//echo "messageText: ".$messageText."\n";
 
