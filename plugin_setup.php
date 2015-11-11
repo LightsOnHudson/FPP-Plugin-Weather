@@ -96,7 +96,7 @@ if(isset($_POST['submit']))
 <p>Configuration:
 <ul>
 <li>Configure your City & 2 Character State & Separator Character to display</li>
-<li>Visit http://http://home.openweathermap.org/ to sign up for an API KEY</li>
+<li>Visit http://home.openweathermap.org/ to sign up for an API KEY</li>
 </ul>
 <ul>
 </ul>
