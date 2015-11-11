@@ -180,16 +180,6 @@ echo "<input type=\"text\" name=\"POST_TEXT\" size=\"16\" value=\"".$POST_TEXT."
 	// PrintSettingText("SEPARATOR", $restart = 0, $reboot = 0, $maxlength = 3, $size = 3, $pluginName);
 	
 	echo "<p/> \n";
-	
-	echo "Include Temp: ";
-	
-	//if($INCLUDE_TEMP== 1 || $INCLUDE_TEMP == "on") {
-	//echo "<input type=\"checkbox\" checked name=\"INCLUDE_TEMP\"> \n";
-	PrintSettingCheckbox("Include Temp", "INCLUDE_TEMP", $restart = 0, $reboot = 0, "1", "0", $pluginName = $pluginName, $callbackName = "");
-	//} else {
-	//echo "<input type=\"checkbox\"  name=\"INCLUDE_TEMP\"> \n";
-	//}
-	
  echo "Separator: \n";
 
        echo "<input type=\"text\" name=\"SEPARATOR\" size=\"2\" value=\"".$SEPARATOR."\"> \n";	
