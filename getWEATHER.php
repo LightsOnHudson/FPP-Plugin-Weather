@@ -166,7 +166,7 @@ if(($pid = lockHelper::lock()) === FALSE) {
 		$messageText .= " ". $SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind;
 
 	if($INCLUDE_HUMIDITY == 1 || $INCLUDE_HUMIDITY == "on") 
-		$messageText .= " ".$SEPARATOR." Humidity: ".$humidity."%";
+		$messageText .= urldecode(" ".$SEPARATOR." Humidity: ".$humidity."%");
 	
 		if(trim($POST_TEXT) != "") {
 			$messageText .= " ".$POST_TEXT;
