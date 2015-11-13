@@ -169,7 +169,7 @@ if(($pid = lockHelper::lock()) === FALSE) {
 		$messageText .= " ".$SEPARATOR." Humidity: ".$humidity."\%";
 	
 		if(trim($POST_TEXT) != "") {
-			$messageText .= " ".$POST_TEXT;
+			$messageText .= " ".$SEPARATOR." " . $POST_TEXT;
 		}
 	//$messageText = "Temp: ".$currentTemp." ".$SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind." ".$SEPARATOR." Humidity: ".$humidity."%";
 	//echo "messageText: ".$messageText."\n";
