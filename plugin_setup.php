@@ -49,7 +49,8 @@ if(isset($_POST['submit']))
 	WriteSettingToFile("INCLUDE_LOCALE",urlencode($_POST["INCLUDE_LOCALE"]),$pluginName);
 	WriteSettingToFile("PRE_TEXT",urlencode($_POST["PRE_TEXT"]),$pluginName);
 	WriteSettingToFile("POST_TEXT",urlencode($_POST["POST_TEXT"]),$pluginName);
-	
+	WriteSettingToFile("TEMP_TYPE",urlencode($_POST["TEMP_TYPE"]),$pluginName);
+	WriteSettingToFile("INCLUDE_DEGREE_SYMBOL",urlencode($_POST["INCLUDE_DEGREE_SYMBOL"]),$pluginName);
 }
 
 	$ENABLED = urldecode($pluginSettings['ENABLED']);
@@ -65,6 +66,8 @@ if(isset($_POST['submit']))
 	$INCLUDE_LOCALE = urldecode($pluginSettings['INCLUDE_LOCALE']);
 	$PRE_TEXT = urldecode($pluginSettings['PRE_TEXT']);
 	$POST_TEXT = urldecode($pluginSettings['POST_TEXT']);
+	$TEMP_TYPE = urldecode($pluginSettings['TEMP_TYPE']);
+	$INCLUDE_DEGREE_SYMBOL = urldecode($pluginSettings['INCLUDE_DEGREE_SYMBOL']);
 	
 	$LAST_READ = urldecode($pluginSettings['LAST_READ']);//("LAST_READ",$pluginName));
 
@@ -170,6 +173,31 @@ echo "<input type=\"text\" name=\"POST_TEXT\" size=\"16\" value=\"".$POST_TEXT."
 	echo "<input type=\"text\" name=\"STATE\" size=\"2\" value=\"".$STATE."\"> \n";
 	//PrintSettingText("STATE", $restart = 0, $reboot = 0, $maxlength = 5, $size = 5, $pluginName);
 	
+	echo "<p/>\n";
+	
+	echo "Temperature type: \n";
+	
+	echo "<select name=\"TEMP_TYPE\"> \n";
+	
+		switch ($TEMP_TYPE)
+		{
+			case "F":
+				echo "<option selected value=\"".$TEMP_TYPE."\">Farenheit</option> \n";
+				 		echo "<option value=\"C\">Celcius</option> \n";
+				break;
+			case "C":
+				echo "<option selected value=\"".$TEMP_TYPE."\">Celcius</option> \n";
+				echo "<option value=\"F\">Farenheit</option> \n";
+				break;
+					
+	
+	
+		}
+	
+
+	
+	echo "</select> \n";
+	
 	
 	echo "<p/> \n";
 	
@@ -220,7 +248,17 @@ echo "<input type=\"text\" name=\"POST_TEXT\" size=\"16\" value=\"".$POST_TEXT."
         //}
         
         echo "<p/> \n";
+
+        echo "Include Degree Symbol (&deg): ";
         
+        // if($INCLUDE_HUMIDITY == 1 || $INCLUDE_HUMIDITY == "on") {
+        //	echo "<input type=\"checkbox\" checked name=\"INCLUDE_HUMIDITY\"> \n";
+        PrintSettingCheckbox("Include Degree Symbol", "INCLUDE_DEGREE_SYMBOL", $restart = 0, $reboot = 0, "1", "0", $pluginName = $pluginName, $callbackName = "");
+        //} else {
+        //echo "<input type=\"checkbox\"  name=\"INCLUDE_HUMIDITY\"> \n";
+        //}
+        
+        echo "<p/> \n";
         
         echo "API KEY: \n";
         

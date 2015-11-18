@@ -66,6 +66,9 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	$INCLUDE_TEMP = urldecode($pluginSettings['INCLUDE_TEMP']);
 	$INCLUDE_HUMIDITY = urldecode($pluginSettings['INCLUDE_HUMIDITY']);
 	$INCLUDE_LOCALE = urldecode($pluginSettings['INCLUDE_LOCALE']);
+	$INCLUDE_DEGREE_SYMBOL = urldecode($pluginSettings['INCLUDE_DEGREE_SYMBOL']);
+	//F or C
+	$TEMP_TYPE = urldecode($pluginSettings['TEMP_TYPE']);
 	$API_KEY= urldecode($pluginSettings['API_KEY']);
 
 	$PRE_TEXT= urldecode($pluginSettings['PRE_TEXT']);
@@ -94,10 +97,23 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	//print_r($weatherData);
 
 	$currentTemp = $weatherData['main']['temp'];
+	
 	logEntry("Current temp before conversion: ".$currentTemp);
 	
+	switch($TEMP_TYPE) {
+		
+		case "F":
+			$currentTemp = round((($currentTemp-273.15)*1.8)+32,1);
+			break;
+			
+		case "C":
+			
+			$currentTemp = round(($currentTemp-273.15),1);
+			break;
+	}
 
-	$currentTemp = round((($currentTemp-273.15)*1.8)+32,1);
+	if($INCLUDE_DEGREE_SYMBOL == 1 || $INCLUDE_DEGREE_SYMBOL == "on")
+		$currentTemp .= "&deg";
 
 	logEntry("Current temp after conversion: ".$currentTemp);
 	
