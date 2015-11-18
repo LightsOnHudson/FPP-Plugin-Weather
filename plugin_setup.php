@@ -185,12 +185,16 @@ echo "<input type=\"text\" name=\"POST_TEXT\" size=\"16\" value=\"".$POST_TEXT."
 				echo "<option selected value=\"".$TEMP_TYPE."\">Farenheit</option> \n";
 				 		echo "<option value=\"C\">Celcius</option> \n";
 				break;
+				
 			case "C":
 				echo "<option selected value=\"".$TEMP_TYPE."\">Celcius</option> \n";
 				echo "<option value=\"F\">Farenheit</option> \n";
 				break;
 					
-	
+			 default:
+				echo "<option value=\"C\">Celcius</option> \n";
+				echo "<option value=\"F\">Farenheit</option> \n";
+				break;
 	
 		}
 	
