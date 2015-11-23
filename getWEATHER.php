@@ -113,7 +113,7 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	}
 
 	if($INCLUDE_DEGREE_SYMBOL == 1 || $INCLUDE_DEGREE_SYMBOL == "on")
-		$currentTemp .= "&deg";
+		$currentTemp .= htmlentities("&deg");
 
 	logEntry("Current temp after conversion: ".$currentTemp);
 	
