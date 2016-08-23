@@ -35,7 +35,7 @@ if(isset($_POST['submit']))
 //	echo "Writring config fie <br/> \n";
 	
 	
-	WriteSettingToFile("ENABLED",urlencode($_POST["ENABLED"]),$pluginName);
+	//WriteSettingToFile("ENABLED",urlencode($_POST["ENABLED"]),$pluginName);
 	WriteSettingToFile("SEPARATOR",urlencode($_POST["SEPARATOR"]),$pluginName);
 	WriteSettingToFile("CITY",urlencode($_POST["CITY"]),$pluginName);
 	WriteSettingToFile("STATE",urlencode($_POST["STATE"]),$pluginName);
@@ -121,7 +121,7 @@ echo "ENABLE PLUGIN: ";
 //if($ENABLED== 1 || $ENABLED == "on") {
 	//	echo "<input type=\"checkbox\" checked name=\"ENABLED\"> \n";
 	//just use the name of the plugin. Because it will pop up with 'enabled / disabled ' suffix
-PrintSettingCheckbox($pluginName." Plugin", "ENABLED", $restart = 0, $reboot = 0, "1", "0", $pluginName = $pluginName, $callbackName = "");
+PrintSettingCheckbox($pluginName." Plugin", "ENABLED", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
 	//} else {
 		//echo "<input type=\"checkbox\"  name=\"ENABLED\"> \n";
 //}

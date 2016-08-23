@@ -18,7 +18,7 @@ include_once("functions.inc.php");
 require ("lock.helper.php");
 
 define('LOCK_DIR', '/tmp/');
-define('LOCK_SUFFIX', '.lock');
+define('LOCK_SUFFIX', $pluginName.'.lock');
 
 $logFile = $settings['logDirectory']."/".$pluginName.".log";
 
@@ -51,7 +51,7 @@ if(($pid = lockHelper::lock()) === FALSE) {
         exit(0);
 }
 
-        if($ENABLED != "on" && $ENABLED != "1") {
+        if($ENABLED != "ON" && $ENABLED != "1") {
                 logEntry("Plugin Status: DISABLED Please enable in Plugin Setup to use & Restart FPPD Daemon");
                 lockHelper::unlock();
                 exit(0);
