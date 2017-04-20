@@ -81,6 +81,17 @@ if(($pid = lockHelper::lock()) === FALSE) {
 		$MESSAGE_FILE = "/home/fpp/media/config/FPP.".$pluginName.".db";
 	}
 
+	
+	// set up DB connection
+	$MESSAGE_FILE= $settings['configDirectory']."/FPP.".$pluginName.".db";
+	
+	//echo "PLUGIN DB:NAME: ".$Plugin_DBName;
+	
+	$db = new SQLite3($MESSAGE_FILE) or die('Unable to open database');
+	
+	//create the tables if not exist
+	createTables();
+	
 //$WEATHER_URL .= $CITY;//.",".$STATE;
 	$WEATHER_URL .= $CITY.",".$STATE."&APPID=".$API_KEY;
 	
