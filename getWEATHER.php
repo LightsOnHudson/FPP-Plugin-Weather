@@ -22,6 +22,7 @@ define('LOCK_SUFFIX', $pluginName.'.lock');
 
 $logFile = $settings['logDirectory']."/".$pluginName.".log";
 
+$WeatherVersion = "2.0";
 
 $WEATHER_URL="http://api.openweathermap.org/data/2.5/weather?q=";
 
