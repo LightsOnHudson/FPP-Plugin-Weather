@@ -191,7 +191,7 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	//$messageText = "Temp: ".$currentTemp." ".$SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind." ".$SEPARATOR." Humidity: ".$humidity."%";
 	//echo "messageText: ".$messageText."\n";
 
-		$messageText = $currentTemp;
+	//	$messageText = $currentTemp;
 		
 	logEntry("Weather string: ".$messageText);
 	
