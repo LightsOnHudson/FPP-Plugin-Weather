@@ -75,6 +75,11 @@ if(($pid = lockHelper::lock()) === FALSE) {
 
 	$PRE_TEXT= urldecode($pluginSettings['PRE_TEXT']);
 	$POST_TEXT= urldecode($pluginSettings['POST_TEXT']);
+	$MESSAGE_FILE = urldecode($pluginSettings['MESSAGE_FILE']);
+	
+	if(trim($MESSAGE_FILE) == "") {
+		$MESSAGE_FILE = "/home/fpp/media/config/FPP.".$pluginName.".db";
+	}
 
 //$WEATHER_URL .= $CITY;//.",".$STATE;
 	$WEATHER_URL .= $CITY.",".$STATE."&APPID=".$API_KEY;
@@ -196,7 +201,7 @@ if(($pid = lockHelper::lock()) === FALSE) {
 		
 	logEntry("Weather string: ".$messageText);
 	
-	addNewMessage($messageText,$pluginName,$pluginData=$CITY." ".$STATE);
+	addNewMessage($messageText,$pluginName,$pluginData=$CITY." ".$STATE, $MESSAGE_FILE);
 
 lockHelper::unlock();
 
