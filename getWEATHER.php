@@ -9,6 +9,7 @@ $messageQueue_Plugin = "MessageQueue";
 $MESSAGE_QUEUE_PLUGIN_ENABLED=false;
 
 $DEBUG=false;
+$WeatherVersion = "2.0";
 
 $skipJSsettings = 1;
 include_once("/opt/fpp/www/config.php");
