@@ -7,7 +7,8 @@ include_once 'functions.inc.php';
 include_once 'commonFunctions.inc.php';
 
 
-$pluginName = "Weather";
+//$pluginName = "Weather";
+$pluginName = basename(dirname(__FILE__));  //pjd 7-14-2019   added per dkulp
 
 $gitURL = "https://github.com/LightsOnHudson/FPP-Plugin-Weather.git";
 
@@ -282,7 +283,7 @@ echo "<input type=\"text\" name=\"POST_TEXT\" size=\"16\" value=\"".$POST_TEXT."
 ?>
 </form>
 
-<p>To report a bug, please file it against the sms Control plugin project on Git: https://github.com/LightsOnHudson/FPP-Plugin-Weather
+<p>To report a bug, please file it against the project on Git: https://github.com/LightsOnHudson/FPP-Plugin-Weather
 
 </fieldset>
 </div>
