@@ -1,4 +1,5 @@
 <?php
+//from weather plugin	// pjd 7/15/2019
 function getHTML($url,$timeout)
 {
 	$ch = curl_init($url); // initialize curl with given url
