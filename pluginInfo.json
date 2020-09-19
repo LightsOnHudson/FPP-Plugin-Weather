@@ -3,9 +3,9 @@
 	"name": "Weather Information Plugin for MessageQueue",
 	"author": "Ben Shaver (bshaver) & Pat Delaney (patdelaney)",
 	"description": "This plugin will retreive the current weather information for a specified location. This plugin requires the Message Queue to Matrix Overlay, Message Queue Aggregator for Plugins, and Matrix Tools to work correctly. You will also need to get an API key from openweathermap.org ",
-	"homeURL": "https://github.com/FalconChristmas/fpp-Plugin-Weather",
-	"srcURL": "https://github.com/FalconChristmas/fpp-Plugin-Weather.git",
-	"bugURL": "https://github.com/FalconChristmas/fpp-Plugin-Weather/issues",
+	"homeURL": "https://github.com/FalconChristmas/FPP-Plugin-Weather",
+	"srcURL": "https://github.com/FalconChristmas/FPP-Plugin-Weather.git",
+	"bugURL": "https://github.com/FalconChristmas/FPP-Plugin-Weather/issues",
 	"allowUpdates": 1,
 	"versions": [
 		{
