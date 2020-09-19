@@ -10,7 +10,7 @@ include_once 'commonFunctions.inc.php';
 //$pluginName = "Weather";
 $pluginName = basename(dirname(__FILE__));  //pjd 7-14-2019   added per dkulp
 
-$gitURL = "https://github.com/LightsOnHudson/FPP-Plugin-Weather.git";
+$gitURL = "https://github.com/FalconChristmas/FPP-Plugin-Weather.git";
 
 
 $pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
