@@ -1,5 +1,5 @@
 {
-	"repoName": "fpp-Plugin-Weather",
+	"repoName": "FPP-Plugin-Weather",
 	"name": "Weather Information Plugin for MessageQueue",
 	"author": "Ben Shaver (bshaver) & Pat Delaney (patdelaney)",
 	"description": "This plugin will retreive the current weather information for a specified location. This plugin requires the Message Queue to Matrix Overlay, Message Queue Aggregator for Plugins, and Matrix Tools to work correctly. You will also need to get an API key from openweathermap.org ",
