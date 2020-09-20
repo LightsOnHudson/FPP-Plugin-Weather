@@ -37,21 +37,21 @@ if(isset($_POST['submit']))
 	
 	
 	//WriteSettingToFile("ENABLED",urlencode($_POST["ENABLED"]),$pluginName);
-	WriteSettingToFile("SEPARATOR",urlencode($_POST["SEPARATOR"]),$pluginName);
-	WriteSettingToFile("CITY",urlencode($_POST["CITY"]),$pluginName);
+	WriteSettingToFile("SEPARATOR",urlencode($_POST["SEPARATOR"]),$pluginName); 
+	WriteSettingToFile("CITY",urlencode($_POST["CITY"]),$pluginName);           
 	WriteSettingToFile("STATE",urlencode($_POST["STATE"]),$pluginName);
 	
 	WriteSettingToFile("LAST_READ",urlencode($_POST["LAST_READ"]),$pluginName);
 	WriteSettingToFile("API_KEY",urlencode($_POST["API_KEY"]),$pluginName);
 	
-	WriteSettingToFile("INCLUDE_TEMP",urlencode($_POST["INCLUDE_TEMP"]),$pluginName);
-	WriteSettingToFile("INCLUDE_WIND",urlencode($_POST["INCLUDE_WIND"]),$pluginName);
-	WriteSettingToFile("INCLUDE_HUMIDITY",urlencode($_POST["INCLUDE_HUMIDITY"]),$pluginName);
-	WriteSettingToFile("INCLUDE_LOCALE",urlencode($_POST["INCLUDE_LOCALE"]),$pluginName);
+	//WriteSettingToFile("INCLUDE_TEMP",urlencode($_POST["INCLUDE_TEMP"]),$pluginName);  //short term fix pjd 9/20/2020  stops save from overwriting checkbox
+	//WriteSettingToFile("INCLUDE_WIND",urlencode($_POST["INCLUDE_WIND"]),$pluginName);  //short term fix pjd 9/20/2020  stops save from overwriting checkbox
+	//WriteSettingToFile("INCLUDE_HUMIDITY",urlencode($_POST["INCLUDE_HUMIDITY"]),$pluginName);  //short term fix pjd 9/20/2020  stops save from overwriting checkbox
+	//WriteSettingToFile("INCLUDE_LOCALE",urlencode($_POST["INCLUDE_LOCALE"]),$pluginName);  //short term fix pjd 9/20/2020  stops save from overwriting checkbox
 	WriteSettingToFile("PRE_TEXT",urlencode($_POST["PRE_TEXT"]),$pluginName);
 	WriteSettingToFile("POST_TEXT",urlencode($_POST["POST_TEXT"]),$pluginName);
 	WriteSettingToFile("TEMP_TYPE",urlencode($_POST["TEMP_TYPE"]),$pluginName);
-	WriteSettingToFile("INCLUDE_DEGREE_SYMBOL",urlencode($_POST["INCLUDE_DEGREE_SYMBOL"]),$pluginName);
+	//WriteSettingToFile("INCLUDE_DEGREE_SYMBOL",urlencode($_POST["INCLUDE_DEGREE_SYMBOL"]),$pluginName);  //short term fix pjd 9/20/2020  stops save from overwriting checkbox
 }
 
 	$ENABLED = urldecode($pluginSettings['ENABLED']);
@@ -283,7 +283,7 @@ echo "<input type=\"text\" name=\"POST_TEXT\" size=\"16\" value=\"".$POST_TEXT."
 ?>
 </form>
 
-<p>To report a bug, please file it against the project on Git: https://github.com/LightsOnHudson/FPP-Plugin-Weather
+<p>To report a bug, please file it against the project on Git: https://github.com/FalconChristmas/FPP-Plugin-Weather
 
 </fieldset>
 </div>
