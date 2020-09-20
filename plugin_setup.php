@@ -94,7 +94,7 @@ if(isset($_POST['submit']))
 
 <p>Known Issues:
 <ul>
-<li>NONE</li>
+<li>After clicking Save Config button you must manually Refresh your web browser to read the new values.</li>
 </ul>
 
 <p>Configuration:
