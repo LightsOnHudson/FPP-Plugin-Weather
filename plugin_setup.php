@@ -33,32 +33,30 @@ if(isset($_POST['updatePlugin']))
 if(isset($_POST['submit']))
 {
 
-//	echo "Writring config fie <br/> \n";
+//	"Writing config file 
+		
 	
-	
-	//WriteSettingToFile("ENABLED",urlencode($_POST["ENABLED"]),$pluginName);
 	WriteSettingToFile("SEPARATOR",urlencode($_POST["SEPARATOR"]),$pluginName); 
-	WriteSettingToFile("CITY",urlencode($_POST["CITY"]),$pluginName);           
-	WriteSettingToFile("STATE",urlencode($_POST["STATE"]),$pluginName);
-	
+	WriteSettingToFile("CITY",trim(urlencode($_POST["CITY"])),$pluginName);           
+	WriteSettingToFile("STATE",trim(urlencode($_POST["STATE"])),$pluginName);
 	WriteSettingToFile("LAST_READ",urlencode($_POST["LAST_READ"]),$pluginName);
 	WriteSettingToFile("API_KEY",urlencode($_POST["API_KEY"]),$pluginName);
-	
-	//WriteSettingToFile("INCLUDE_TEMP",urlencode($_POST["INCLUDE_TEMP"]),$pluginName);  //short term fix pjd 9/20/2020  stops save from overwriting checkbox
-	//WriteSettingToFile("INCLUDE_WIND",urlencode($_POST["INCLUDE_WIND"]),$pluginName);  //short term fix pjd 9/20/2020  stops save from overwriting checkbox
-	//WriteSettingToFile("INCLUDE_HUMIDITY",urlencode($_POST["INCLUDE_HUMIDITY"]),$pluginName);  //short term fix pjd 9/20/2020  stops save from overwriting checkbox
-	//WriteSettingToFile("INCLUDE_LOCALE",urlencode($_POST["INCLUDE_LOCALE"]),$pluginName);  //short term fix pjd 9/20/2020  stops save from overwriting checkbox
 	WriteSettingToFile("PRE_TEXT",urlencode($_POST["PRE_TEXT"]),$pluginName);
 	WriteSettingToFile("POST_TEXT",urlencode($_POST["POST_TEXT"]),$pluginName);
 	WriteSettingToFile("TEMP_TYPE",urlencode($_POST["TEMP_TYPE"]),$pluginName);
-	//WriteSettingToFile("INCLUDE_DEGREE_SYMBOL",urlencode($_POST["INCLUDE_DEGREE_SYMBOL"]),$pluginName);  //short term fix pjd 9/20/2020  stops save from overwriting checkbox
+	WriteSettingToFile("COUNTRY",urlencode($_POST["country"]),$pluginName);
+	
+	$pluginConfigFile = $settings['configDirectory'] . "/plugin." . $pluginName;
+    	if (file_exists($pluginConfigFile)) {
+        	$pluginSettings = parse_ini_file($pluginConfigFile);
+    	}
 }
 
 	$ENABLED = urldecode($pluginSettings['ENABLED']);
 	
 	$SEPARATOR = urldecode($pluginSettings['SEPARATOR']);
-	$CITY=  urldecode($pluginSettings['CITY']);
-	$STATE=  urldecode($pluginSettings['STATE']);
+	$CITY=  trim(urldecode($pluginSettings['CITY']));
+	$STATE=  trim(urldecode($pluginSettings['STATE']));
 	$API_KEY = urldecode($pluginSettings['API_KEY']);
 	
 	$INCLUDE_WIND = urldecode($pluginSettings['INCLUDE_WIND']);
@@ -69,13 +67,23 @@ if(isset($_POST['submit']))
 	$POST_TEXT = urldecode($pluginSettings['POST_TEXT']);
 	$TEMP_TYPE = urldecode($pluginSettings['TEMP_TYPE']);
 	$INCLUDE_DEGREE_SYMBOL = urldecode($pluginSettings['INCLUDE_DEGREE_SYMBOL']);
-	
+	$COUNTRY= urldecode($pluginSettings['COUNTRY']);
+	$LATITUDE= GetSettingValue("Latitude");
+	$LONGITUDE= GetSettingValue("Longitude");
 	$LAST_READ = urldecode($pluginSettings['LAST_READ']);//("LAST_READ",$pluginName));
 
-	if($SEPARATOR == "" || strlen($SEPARATOR)>1) {
+	//set hide/unhide value for country <div>
+	if ($COUNTRY == "US") {
+		$USDIV = "display:block";
+		$OTHDIV = "display:none";
+	} else {
+		$USDIV = "display:none";
+		$OTHDIV = "display:block";
+	}
+	if(strlen($SEPARATOR)>1) { //change to allow for no separator
 		$SEPARATOR="|";
 	}
-	//echo "sports read: ".$SPORTS."<br/> \n";
+	
 	
 	if((int)$LAST_READ == 0 || $LAST_READ == "") {
 		$LAST_READ=0;
@@ -84,23 +92,25 @@ if(isset($_POST['submit']))
 	
 ?>
 
-<html>
+<!DOCTYPE html>
 <head>
 </head>
-
+<body>
 <div id="<?echo $pluginName;?>" class="settings">
 <fieldset>
 <legend><?php echo $pluginName;?> Support Instructions</legend>
 
 <p>Known Issues:
 <ul>
-<li>After clicking Save Config button you must manually Refresh your web browser to read the new values.</li>
+<li>None</li>
 </ul>
 
 <p>Configuration:
 <ul>
 <li>Configure your City & 2 Character State & Separator Character to display</li>
-<li>Visit http://home.openweathermap.org/ to sign up for an API KEY</li>
+<li>If you are not in the US, you can enter your Latitude and Longitude settings to get your local weather.<p>
+Link to settings: <a href="settings.php?tab=9"> System tab</a>
+<li>Visit <a href="http://home.openweathermap.org/" target="_blank">http://home.openweathermap.org/</a> to sign up for an API KEY</li>
 </ul>
 <ul>
 </ul>
@@ -144,38 +154,31 @@ if($DEBUG) {
 echo "<p/> \n";
 
 echo "Pre Text (Text to display ahead of Weather data): \n";
+?>
+<input type="text" name="PRE_TEXT" size="16" value="<? echo $PRE_TEXT; ?>"> <p>
 
-echo "<input type=\"text\" name=\"PRE_TEXT\" size=\"16\" value=\"".$PRE_TEXT."\"> \n";
-//PrintSettingText("CITY", $restart = 0, $reboot = 0, $maxlength = 32, $size = 32, $pluginName);
-//PrintSettingSave("CITY", "CITY", $restart = 1, $reboot = 0, $pluginName, $callbackName = "");
-//PrintSettingSave($title, $setting, $restart = 1, $reboot = 0, $pluginName = "", $callbackName = "");
-echo "<p/> \n";
+Post Text (Text to display after weather data): 
 
-echo "Post Text (Text to display after weather data): \n";
+<input type="text" name="POST_TEXT" size="16" value="<? echo $POST_TEXT; ?>"> <p>
 
-echo "<input type=\"text\" name=\"POST_TEXT\" size=\"16\" value=\"".$POST_TEXT."\"> \n";
-//PrintSettingText("CITY", $restart = 0, $reboot = 0, $maxlength = 32, $size = 32, $pluginName);
-//PrintSettingSave("CITY", "CITY", $restart = 1, $reboot = 0, $pluginName, $callbackName = "");
-//PrintSettingSave($title, $setting, $restart = 1, $reboot = 0, $pluginName = "", $callbackName = "");
+Select your country 
+<input type="radio" id="us" name="country" value="US" onclick="setRadioUS()" <? if ($COUNTRY=="US") echo "checked"; ?>>
+<label for="us">US</label>	
+<input type="radio" id="other" name="country" value="Other" onclick="setRadioOther()"<? if ($COUNTRY=="Other") echo "checked"; ?>>
+<label for="other">Other</label><p/>
 
-	echo "<p/> \n";
-	
-	echo "City: \n";
-	
-	echo "<input type=\"text\" name=\"CITY\" size=\"16\" value=\"".$CITY."\"> \n";
-	//PrintSettingText("CITY", $restart = 0, $reboot = 0, $maxlength = 32, $size = 32, $pluginName);
-	//PrintSettingSave("CITY", "CITY", $restart = 1, $reboot = 0, $pluginName, $callbackName = "");
-	//PrintSettingSave($title, $setting, $restart = 1, $reboot = 0, $pluginName = "", $callbackName = "");
-	echo "<p/> \n";
-	
-	
-	echo "State: \n";
-	
-	echo "<input type=\"text\" name=\"STATE\" size=\"2\" value=\"".$STATE."\"> \n";
-	//PrintSettingText("STATE", $restart = 0, $reboot = 0, $maxlength = 5, $size = 5, $pluginName);
-	
-	echo "<p/>\n";
-	
+<div id="ifUS" style="<? echo "$USDIV"; ?>">
+	City: <input type="text" name="CITY" size="16" value="<? echo $CITY; ?>"> <p>
+	State: <input type="text" name="STATE" size="2" value="<? echo $STATE; ?>"> <p>
+</div>
+
+<div id="ifOther" style="<? echo "$OTHDIV"; ?>">
+<h4>You need to configure your Latitude and Longitude settings in the FPP Settings page on the <a href="settings.php?tab=9"> System tab</a></h4> <p>
+	Latitude: <input type="text" name="LATITUDE" size="16"  value="<? echo $LATITUDE; ?>" disabled> <p>
+	Longitude: <input type="text" name="LONGITUDE" size="16" value="<? echo $LONGITUDE; ?>" disabled> <p>
+</div>
+
+<?
 	echo "Temperature type: \n";
 	
 	echo "<select name=\"TEMP_TYPE\"> \n";
@@ -288,4 +291,15 @@ echo "<input type=\"text\" name=\"POST_TEXT\" size=\"16\" value=\"".$POST_TEXT."
 </fieldset>
 </div>
 <br />
+<script> 
+function setRadioUS() {
+	document.getElementById('ifUS').style.display = "block";
+	document.getElementById('ifOther').style.display = "none";
+}
+function setRadioOther() {
+	document.getElementById('ifUS').style.display = "none";
+	document.getElementById('ifOther').style.display = "block";
+}
+</script> 
+</body>
 </html>
