@@ -186,18 +186,18 @@ Select your country
 		switch ($TEMP_TYPE)
 		{
 			case "F":
-				echo "<option selected value=\"".$TEMP_TYPE."\">Farenheit</option> \n";
+				echo "<option selected value=\"".$TEMP_TYPE."\">Fahrenheit</option> \n";
 				 		echo "<option value=\"C\">Celcius</option> \n";
 				break;
 				
 			case "C":
 				echo "<option selected value=\"".$TEMP_TYPE."\">Celcius</option> \n";
-				echo "<option value=\"F\">Farenheit</option> \n";
+				echo "<option value=\"F\">Fahrenheit</option> \n";
 				break;
 					
 			 default:
 				echo "<option value=\"C\">Celcius</option> \n";
-				echo "<option value=\"F\">Farenheit</option> \n";
+				echo "<option value=\"F\">Fahrenheit</option> \n";
 				break;
 	
 		}
