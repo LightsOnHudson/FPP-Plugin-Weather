@@ -173,7 +173,7 @@ Select your country
 </div>
 
 <div id="ifOther" style="<? echo "$OTHDIV"; ?>">
-<h4>You need to configure your Latitude and Longitude settings in the FPP Settings page on the <a href="settings.php?tab=9"> System tab</a></h4> <p>
+<h4>YMake sure your Latitude and Longitude settings are correct. To change them, go to  the FPP Settings page on the <a href="settings.php?tab=9"> System tab</a></h4> <p>
 	Latitude: <input type="text" name="LATITUDE" size="16"  value="<? echo $LATITUDE; ?>" disabled> <p>
 	Longitude: <input type="text" name="LONGITUDE" size="16" value="<? echo $LONGITUDE; ?>" disabled> <p>
 </div>
