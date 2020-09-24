@@ -6,7 +6,7 @@ error_reporting(0);
 $pluginName = basename(dirname(__FILE__));  //pjd 7-14-2019   added per dkulp
 $myPid = getmypid();
 
-//$messageQueue_Plugin = "MessageQueue";
+
 // Fix for backward compatibility added this for 2.7 path 7/17/2019
 //$messageQueue_Plugin = "MessageQueue";
 if (strpos($pluginName, "FPP-Plugin") !== false) {
@@ -36,7 +36,7 @@ logEntry("Weather_PLUGIN: MessageQueue Plugin: ".$messageQueue_Plugin);
 
 $WeatherVersion = "2.0";
 
-$WEATHER_URL="http://api.openweathermap.org/data/2.5/weather?q=";
+$WEATHER_URL="http://api.openweathermap.org/data/2.5/weather?";
 
 $messageQueuePluginPath = $pluginDirectory."/".$messageQueue_Plugin."/";
 
@@ -83,15 +83,10 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	//F or C
 	$TEMP_TYPE = urldecode($pluginSettings['TEMP_TYPE']);						// 
 	$API_KEY= urldecode($pluginSettings['API_KEY']);							// 
-
 	$PRE_TEXT= urldecode($pluginSettings['PRE_TEXT']);							// 
 	$POST_TEXT= urldecode($pluginSettings['POST_TEXT']);						// 
 	$MESSAGE_FILE = urldecode($pluginSettings['MESSAGE_FILE']);					//
 	
-//	if(trim($MESSAGE_FILE) == "") {												// pjd 7/15/2019  commented out
-//		$MESSAGE_FILE = "/home/fpp/media/config/FPP.".$pluginName.".db";		// pjd 7/15/2019  commented out
-//	}
-
 	
 	// set up DB connection
 	$MESSAGE_FILE= $settings['configDirectory']."/FPP.".$pluginName.".db";		// pjd 7/15/2019 comment out
@@ -105,8 +100,23 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	//create the tables if not exist
 	createTables();
 	
-//$WEATHER_URL .= $CITY;//.",".$STATE;
-	$WEATHER_URL .= $CITY.",".$STATE.",&APPID=".$API_KEY;	//pjd 7/15/2015 added comma before &APPID
+	if ($COUNTRY=="US"){
+		$WEATHER_URL .= "q=".$CITY.",".$STATE.",&APPID=".$API_KEY;	//pjd 7/15/2015 added comma before &APPID
+	} else{ //Other country
+		if (strlen($LONGITUDE)<2){ //If coordinates are not set- set them for the North Pole
+			logEntry("*********ERROR No Latitude or Longitude set- Using coordinates for North Pole");
+			$LATITUDE="90.000";
+			$LONGITUDE="-135.000";
+		}
+		if ($LATITUDE< -90 || $LATITUDE >90){
+			logEntry("**********Error Latitude out of range");
+		}
+		if ($LONGITUDE< -180 || $LATITUDE >180){
+			logEntry("**********Error Latitude out of range");
+		}
+		$WEATHER_URL .= "lat=".$LATITUDE."&lon=".$LONGITUDE."&APPID=".$API_KEY;
+	}
+	
 	
 	logEntry("Weather_PLUGIN: WEATHER_URL: ".$WEATHER_URL);	  // pjd 7/15/2019 added for debugging
         //  Initiate curl
@@ -202,26 +212,30 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	
 	//MessageText=""
 	$messageText="";
+	if (($COUNTRY=="Other" && strlen(GetSettingValue("Latitude"))>1)|| ($COUNTRY="US")){ //Valid config are set-use settings
+		if(trim($PRE_TEXT) != "") {
+			$messageText .= $PRE_TEXT;
+		}
 	
-	if(trim($PRE_TEXT) != "") {
-		$messageText .= $PRE_TEXT;
-	}
+		if($INCLUDE_LOCALE == 1 || $INCLUDE_LOCALE == "on")
+			$messageText .= " ". $SEPARATOR." ". $CITY.",".$STATE;
 	
-	if($INCLUDE_LOCALE == 1 || $INCLUDE_LOCALE == "on")
-		$messageText .= " ". $SEPARATOR." ". $CITY.",".$STATE;
-	
-	if($INCLUDE_TEMP == 1 || $INCLUDE_TEMP == "on")
-		$messageText .= " ". $SEPARATOR." Temp: ".$currentTemp;
+		if($INCLUDE_TEMP == 1 || $INCLUDE_TEMP == "on")
+			$messageText .= " ". $SEPARATOR." Temp: ".$currentTemp;
 
-	if($INCLUDE_WIND == 1 || $INCLUDE_WIND == "on")
-		$messageText .= " ". $SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind;
+		if($INCLUDE_WIND == 1 || $INCLUDE_WIND == "on")
+			$messageText .= " ". $SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind;
 
-	if($INCLUDE_HUMIDITY == 1 || $INCLUDE_HUMIDITY == "on") 
-		$messageText .= " ".$SEPARATOR." Humidity: ".$humidity."\%";
+		if($INCLUDE_HUMIDITY == 1 || $INCLUDE_HUMIDITY == "on") 
+			$messageText .= " ".$SEPARATOR." Humidity: ".$humidity."\%";
 	
 		if(trim($POST_TEXT) != "") {
 			$messageText .= " ".$SEPARATOR." " . $POST_TEXT;
 		}
+	}else{ //Latitude and Longitude are not set so use the North Pole instead.
+		logEntry("************ERROR No Latitude ot Longitude set, use North Pole");
+		$messageText= "It is Temp: ".$currentTemp." at the North Pole";
+	}
 	//$messageText = "Temp: ".$currentTemp." ".$SEPARATOR." Wind: ".$currentWindDirection." ".$currentWind." ".$SEPARATOR." Humidity: ".$humidity."%";
 	//echo "messageText: ".$messageText."\n";
 
