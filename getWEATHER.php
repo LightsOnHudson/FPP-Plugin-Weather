@@ -22,11 +22,19 @@ $skipJSsettings = 1;
 include_once("/opt/fpp/www/config.php");
 include_once("/opt/fpp/www/common.php");
 include_once("functions.inc.php");
-
+include_once("commonFunctions.inc.php");
 require ("lock.helper.php");
 
 define('LOCK_DIR', '/tmp/');
 define('LOCK_SUFFIX', $pluginName.'.lock');
+
+$MATRIX_MESSAGE_PLUGIN_NAME = "MatrixMessage"; 
+if (strpos($pluginName, "FPP-Plugin") !== false) {
+    $MATRIX_MESSAGE_PLUGIN_NAME = "FPP-Plugin-Matrix-Message";
+}
+//page name to run the matrix code to output to matrix (remote or local);
+$MATRIX_EXEC_PAGE_NAME = "matrix.php"; 
+$MATRIX_LOCATION = "127.0.0.1"; 
 
 $logFile = $settings['logDirectory']."/".$pluginName.".log";
 
@@ -85,11 +93,12 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	$API_KEY= urldecode($pluginSettings['API_KEY']);							// 
 	$PRE_TEXT= urldecode($pluginSettings['PRE_TEXT']);							// 
 	$POST_TEXT= urldecode($pluginSettings['POST_TEXT']);						// 
-	$MESSAGE_FILE = urldecode($pluginSettings['MESSAGE_FILE']);					//
-	
-	
+	$LATITUDE=GetSettingValue(Latitude, $default = '', $prefix = '', $suffix = '');
+	$LONGITUDE=GetSettingValue(Longitude, $default = '', $prefix = '', $suffix = '');
+	$COUNTRY= urldecode($pluginSettings['COUNTRY']);
+	$IMMEDIATE_OUTPUT=urldecode($pluginSettings['IMMEDIATE_OUTPUT']);
+		
 	// set up DB connection
-	$MESSAGE_FILE= $settings['configDirectory']."/FPP.".$pluginName.".db";		// pjd 7/15/2019 comment out
 	$MESSAGE_FILE= $settings['configDirectory']."/FPP.".$messageQueue_Plugin.".db";
 	logEntry("Weather_PLUGIN: Messsage File: ".$MESSAGE_FILE);					// pjd 7/15/2019 added for debugging
 
@@ -212,7 +221,7 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	
 	//MessageText=""
 	$messageText="";
-	if (($COUNTRY=="Other" && strlen(GetSettingValue("Latitude"))>1)|| ($COUNTRY="US")){ //Valid config are set-use settings
+	if (($COUNTRY=="Other" && strlen(GetSettingValue("Latitude"))>1)|| ($COUNTRY="US")){ //Valid config is set-use settings
 		if(trim($PRE_TEXT) != "") {
 			$messageText .= $PRE_TEXT;
 		}
@@ -243,7 +252,56 @@ if(($pid = lockHelper::lock()) === FALSE) {
 		
 	logEntry("Weather string: ".$messageText);
 	
-	addNewMessage($messageText,$pluginName,$pluginData=$CITY." ".$STATE, $MESSAGE_FILE);
+	logEntry("Adding message ".$messageText. " to message queue: " . $pluginName);//---------------
+	
+	if($MESSAGE_QUEUE_PLUGIN_ENABLED) {
+		addNewMessage($messageText,$pluginName,$pluginData=$CITY." ".$STATE, $MESSAGE_FILE);
+	} else {
+		logEntry("MessageQueue plugin is not enabled/installed: Cannot add message: ".$messageText);
+	} //---------------------------------
+	if($IMMEDIATE_OUTPUT != "ON") {
+		logEntry("NOT immediately outputting to matrix Immediate output ");
+	} else {
+		logEntry("IMMEDIATE OUTPUT ENABLED" );
+	
+		// write high water mark, so that if run-matrix is run it will not re-run old messages
+	
+		$pluginLatest = time ();
+	
+		// logEntry("message queue latest: ".$pluginLatest);
+		// logEntry("Writing high water mark for plugin: ".$pluginName." LAST_READ = ".$pluginLatest);
+	
+		// file_put_contents($messageQueuePluginPath.$pluginSubscriptions[$pluginIndex].".lastRead",$pluginLatest);
+		// WriteSettingToFile("LAST_READ",urlencode($pluginLatest),$pluginName);
+	
+		// do{
+	
+		logEntry ( "Matrix location: " . $MATRIX_LOCATION );
+		logEntry ( "Matrix Exec page: " . $MATRIX_EXEC_PAGE_NAME );
+		$MATRIX_ACTIVE = true;
+		WriteSettingToFile ( "MATRIX_ACTIVE", urlencode ( $MATRIX_ACTIVE ), $pluginName );
+		logEntry ( "MATRIX ACTIVE: " . $MATRIX_ACTIVE );
+	
+		$curlURL = "http://" . $MATRIX_LOCATION . "/plugin.php?plugin=" . $MATRIX_MESSAGE_PLUGIN_NAME . "&page=" . $MATRIX_EXEC_PAGE_NAME . "&nopage=1&subscribedPlugin=" . $pluginName . "&onDemandMessage=" . urlencode ( $messageText );
+		if ($DEBUG)
+			logEntry ( "MATRIX TRIGGER: " . $curlURL );
+		
+			$ch = curl_init ();
+			curl_setopt ( $ch, CURLOPT_URL, $curlURL );
+		
+			curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+			curl_setopt ( $ch, CURLOPT_WRITEFUNCTION, 'do_nothing' );
+			curl_setopt ( $ch, CURLOPT_VERBOSE, false );
+		
+			$result = curl_exec ( $ch );
+			logEntry ( "Curl result: " . $result ); // $result;
+			curl_close ( $ch );
+		
+			$MATRIX_ACTIVE = false;
+			WriteSettingToFile ( "MATRIX_ACTIVE", urlencode ( $MATRIX_ACTIVE ), $pluginName );
+		
+
+	}
 
 lockHelper::unlock();
 
