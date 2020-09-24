@@ -109,7 +109,7 @@ if(isset($_POST['submit']))
 <ul>
 <li>Configure your City & 2 Character State & Separator Character to display</li>
 <li>If you are not in the US, you can enter your Latitude and Longitude settings to get your local weather.<p>
-Link to settings: <a href="settings.php?tab=9"> System tab</a>
+Link to settings: <a href=settings.php?tab=9> System tab</a>
 <li>Visit <a href="http://home.openweathermap.org/" target="_blank">http://home.openweathermap.org/</a> to sign up for an API KEY</li>
 </ul>
 <ul>
@@ -173,7 +173,7 @@ Select your country
 </div>
 
 <div id="ifOther" style="<? echo "$OTHDIV"; ?>">
-<h4>YMake sure your Latitude and Longitude settings are correct. To change them, go to  the FPP Settings page on the <a href="settings.php?tab=9"> System tab</a></h4> <p>
+<h4>YMake sure your Latitude and Longitude settings are correct. To change them, go to  the FPP Settings page on the <a href=settings.php?tab=9> System tab</a></h4> <p>
 	Latitude: <input type="text" name="LATITUDE" size="16"  value="<? echo $LATITUDE; ?>" disabled> <p>
 	Longitude: <input type="text" name="LONGITUDE" size="16" value="<? echo $LONGITUDE; ?>" disabled> <p>
 </div>
