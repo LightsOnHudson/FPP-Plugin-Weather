@@ -12,19 +12,24 @@ $pluginName = basename(dirname(__FILE__));  //pjd 7-14-2019   added per dkulp
 
 $gitURL = "https://github.com/FalconChristmas/FPP-Plugin-Weather.git";
 
-
 $pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
-
+$ScriptPath= "/home/fpp/media/scripts/";
+$PluginPath= $settings['pluginDirectory']."/".$pluginName."/";
 $logFile = $settings['logDirectory']."/".$pluginName.".log";
 
-$settingsPath=$settings['pluginDirectory']."/".$pluginName."/";
+logEntry("$pluginUpdateFile = ".$pluginUpdateFile);
 
-if (file_exists($settingsPath."getLocalWeather.sh")=="FALSE"){
+clearstatcache();
+
+if (!(file_exists($ScriptPath."getLocalWeather.sh"))){
 	logEntry("GetLocalWeather.sh does not exist, copying scripts");
-	copy ($settingsPath."getLocalWeather.sh", "/home/fpp/media/scripts/getLocalWeather.sh");
-	copy ($settingsPath."RUN-MATRIX.sh", "/home/fpp/media/scripts/getLocalWeather.sh");
+	copy ($PluginPath."getLocalWeather.sh", "/home/fpp/media/scripts/getLocalWeather.sh");
+	
 }
-logEntry("plugin update file: ".$pluginUpdateFile);
+if (!(file_exists($ScriptPath."RUN-MATRIX.sh"))){
+	logEntry("RUN-MATRIX.sh does not exist, copying scripts");
+	copy ($PluginPath."RUN-MATRIX.sh", "/home/fpp/media/scripts/RUN-MATRIX.sh");
+}
 
 
 if(isset($_POST['updatePlugin']))
@@ -286,6 +291,15 @@ Select your country
        // PrintSettingText("API_KEY", $restart = 1, $reboot = 0, $maxlength = 64, $size = 64, $pluginName);
         
         echo "<p/> \n";
+	echo "Immediately output to Matrix (Run MATRIX plugin): ";
+
+	//if($IMMEDIATE_OUTPUT == "on" || $IMMEDIATE_OUTPUT == 1) {
+	//	echo "<input type=\"checkbox\" checked name=\"IMMEDIATE_OUTPUT\"> \n";
+	PrintSettingCheckbox("Immediate output to Matrix", "IMMEDIATE_OUTPUT", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
+	//} else {
+	//echo "<input type=\"checkbox\"  name=\"IMMEDIATE_OUTPUT\"> \n";
+	//}
+echo "<p/> \n";
 ?>
 <p/>
 <input id="submit_button" name="submit" type="submit" class="buttons" value="Save Config">
