@@ -15,10 +15,15 @@ $gitURL = "https://github.com/FalconChristmas/FPP-Plugin-Weather.git";
 
 $pluginUpdateFile = $settings['pluginDirectory']."/".$pluginName."/"."pluginUpdate.inc";
 
-
 $logFile = $settings['logDirectory']."/".$pluginName.".log";
 
+$settingsPath=$settings['pluginDirectory']."/".$pluginName."/";
 
+if (file_exists($settingsPath."getLocalWeather.sh")=="FALSE"){
+	logEntry("GetLocalWeather.sh does not exist, copying scripts");
+	copy ($settingsPath."getLocalWeather.sh", "/home/fpp/media/scripts/getLocalWeather.sh");
+	copy ($settingsPath."RUN-MATRIX.sh", "/home/fpp/media/scripts/getLocalWeather.sh");
+}
 logEntry("plugin update file: ".$pluginUpdateFile);
 
 
@@ -68,6 +73,13 @@ if(isset($_POST['submit']))
 	$TEMP_TYPE = urldecode($pluginSettings['TEMP_TYPE']);
 	$INCLUDE_DEGREE_SYMBOL = urldecode($pluginSettings['INCLUDE_DEGREE_SYMBOL']);
 	$COUNTRY= urldecode($pluginSettings['COUNTRY']);
+	if (strlen($COUNTRY)<1){ //empty setting, setting default
+		$COUNTRY="US";
+	}
+	$IMMEDIATE_OUTPUT= urldecode($pluginSettings['IMMEDIATE_OUTPUT']);
+	if (strlen($IMMEDIATE_OUTPUT)<1( //empty setting, setting default
+		$IMMEDIATE_OUTPUT="ON";
+	}
 	$LATITUDE= GetSettingValue("Latitude");
 	$LONGITUDE= GetSettingValue("Longitude");
 	$LAST_READ = urldecode($pluginSettings['LAST_READ']);//("LAST_READ",$pluginName));
