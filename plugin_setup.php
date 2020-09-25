@@ -77,7 +77,7 @@ if(isset($_POST['submit']))
 		$COUNTRY="US";
 	}
 	$IMMEDIATE_OUTPUT= urldecode($pluginSettings['IMMEDIATE_OUTPUT']);
-	if (strlen($IMMEDIATE_OUTPUT)<1( //empty setting, setting default
+	if (strlen($IMMEDIATE_OUTPUT)<1){ //empty setting, setting default
 		$IMMEDIATE_OUTPUT="ON";
 	}
 	$LATITUDE= GetSettingValue("Latitude");
