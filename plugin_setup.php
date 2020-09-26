@@ -81,7 +81,7 @@ if(isset($_POST['submit']))
 	if (strlen($COUNTRY)<1){ //empty setting, setting default
 		$COUNTRY="US";
 	}
-	$IMMEDIATE_OUTPUT= urldecode($pluginSettings['IMMEDIATE_OUTPUT']);
+	$IMMEDIATE_OUTPUT= urldecode($pluginSettings['IMMEDIATE_OUTPUT']);//this doesn't work..for another day
 	if (strlen($IMMEDIATE_OUTPUT)<1){ //empty setting, setting default
 		$IMMEDIATE_OUTPUT="ON";
 	}
@@ -296,6 +296,7 @@ Select your country
 	//if($IMMEDIATE_OUTPUT == "on" || $IMMEDIATE_OUTPUT == 1) {
 	//	echo "<input type=\"checkbox\" checked name=\"IMMEDIATE_OUTPUT\"> \n";
 	PrintSettingCheckbox("Immediate output to Matrix", "IMMEDIATE_OUTPUT", $restart = 0, $reboot = 0, "ON", "OFF", $pluginName = $pluginName, $callbackName = "");
+	echo "<h4>You typically want to have this checked or else it is a 2 step process and you can get old data information</h4>";
 	//} else {
 	//echo "<input type=\"checkbox\"  name=\"IMMEDIATE_OUTPUT\"> \n";
 	//}
