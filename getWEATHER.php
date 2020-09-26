@@ -221,7 +221,7 @@ if(($pid = lockHelper::lock()) === FALSE) {
 	
 	//MessageText=""
 	$messageText="";
-	if (($COUNTRY=="Other" && strlen(GetSettingValue("Latitude"))>1)|| ($COUNTRY="US")){ //Valid config is set-use settings
+	if (($COUNTRY=="Other" && strlen(GetSettingValue("Latitude"))!=0)|| ($COUNTRY=="US")){ //Valid configuration-use settings
 		if(trim($PRE_TEXT) != "") {
 			$messageText .= $PRE_TEXT;
 		}
